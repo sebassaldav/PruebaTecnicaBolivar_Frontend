@@ -5,16 +5,16 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { InvoiceService } from '../../service/service';
-import { InvoiceType } from '../../models/invoice.model';
+import { Invoice, InvoiceType } from '../../models/invoice.model';
 import { InvoiceRequest } from '../../models/invoice-request.model';
 
 @Component({
   selector: 'app-invoice-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './invoice-create.html',
   styleUrl: './invoice-create.scss'
 })
@@ -86,52 +86,61 @@ export class InvoiceCreate implements OnInit {
     this.router.navigate(['/invoices']);
   }
 
-  createInvoice(): void {
-    if (this.invoiceForm.invalid) {
-      this.invoiceForm.markAllAsTouched();
-      return;
-    }
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    const formValue = this.invoiceForm.getRawValue();
-
-    const request: InvoiceRequest = {
-      type: formValue.type,
-      subtotal: formValue.subtotal
-    };
-
-    if (formValue.type === 'EXPORTACION') {
-      request.customsCode = formValue.customsCode.trim();
-    }
-
-    this.invoiceService.createInvoice(request).subscribe({
-      next: () => {
-        this.router.navigate(['/invoices']);
-      },
-
-      error: (error) => {
-        console.error('Error creando factura:', error);
-
-        this.isLoading = false;
-
-        if (error.status === 400) {
-          this.errorMessage =
-            error?.error?.message ??
-            'Los datos ingresados no son válidos.';
-          return;
-        }
-
-        if (error.status === 403) {
-          this.errorMessage =
-            'No tienes permisos para crear facturas.';
-          return;
-        }
-
-        this.errorMessage =
-          'No fue posible crear la factura.';
-      }
-    });
+ createInvoice(): void {
+  if (this.invoiceForm.invalid) {
+    this.invoiceForm.markAllAsTouched();
+    return;
   }
+
+  this.isLoading = true;
+  this.errorMessage = '';
+
+  const formValue = this.invoiceForm.getRawValue();
+
+  const request: InvoiceRequest = {
+    type: formValue.type,
+    subtotal: formValue.subtotal
+  };
+
+  if (formValue.type === 'EXPORTACION') {
+    request.customsCode = formValue.customsCode.trim();
+  }
+
+  this.invoiceService.createInvoice(request).subscribe({
+    next: (invoice) => {
+      this.isLoading = false;
+
+      this.router.navigate([
+        '/invoices',
+        invoice.id
+      ]);
+    },
+
+    error: (error) => {
+      console.error('Error creando factura:', error);
+
+      this.isLoading = false;
+
+      if (error.status === 400) {
+        this.errorMessage =
+          error?.error?.message ??
+          'Los datos ingresados no son válidos.';
+        return;
+      }
+
+      if (error.status === 403) {
+        this.errorMessage =
+          'No tienes permisos para crear facturas.';
+        return;
+      }
+
+      this.errorMessage =
+        'No fue posible crear la factura.';
+    }
+  });
+}
+goToInvoices(): void {
+  this.router.navigate(['/invoices']);
+}
+
 }

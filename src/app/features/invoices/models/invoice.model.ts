@@ -12,6 +12,7 @@ export interface Invoice {
   iva: number;
   withholding: number;
   total: number;
+  totalInWords: string;
   createdAt: string;
   createdBy: string;
 }
