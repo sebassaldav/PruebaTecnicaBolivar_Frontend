@@ -1,0 +1,47 @@
+.login-container {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+
+  padding: 32px;
+
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+
+  cursor: pointer;
+}
+
+.error-message {
+  margin-bottom: 16px;
+}
