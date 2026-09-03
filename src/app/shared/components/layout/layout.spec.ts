@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { vi } from 'vitest';
 
 import { Layout } from './layout';
+import { Auth } from '../../../core/auth/services/auth';
 
 describe('Layout', () => {
   let component: Layout;
@@ -8,7 +11,17 @@ describe('Layout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Layout]
+      imports: [Layout],
+      providers: [
+        provideRouter([]),
+        {
+          provide: Auth,
+          useValue: {
+            getCurrentUser: vi.fn().mockReturnValue(null),
+            logout: vi.fn()
+          }
+        }
+      ]
     })
     .compileComponents();
 
@@ -19,5 +32,9 @@ describe('Layout', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render the navbar and sidebar without errors', () => {
+    expect(() => fixture.detectChanges()).not.toThrow();
   });
 });
