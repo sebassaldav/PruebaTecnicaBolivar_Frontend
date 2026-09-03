@@ -1,0 +1,162 @@
+<section class="invoice-create">
+
+    <div class="page-header">
+        <div>
+            <h1>Crear factura</h1>
+            <p>Registra una nueva factura en el sistema.</p>
+        </div>
+    </div>
+
+    <form [formGroup]="invoiceForm" (ngSubmit)="createInvoice()" class="invoice-form">
+
+        <div class="form-section">
+
+            <h2>Información de la factura</h2>
+
+            <!-- Tipo de factura -->
+            <div class="form-group">
+
+                <label for="type">
+                    Tipo de factura
+                </label>
+
+                <select id="type" formControlName="type" (change)="onTypeChange()">
+                    @for (invoiceType of invoiceTypes; track invoiceType.value) {
+                    <option [value]="invoiceType.value">
+                        {{ invoiceType.label }}
+                    </option>
+                    }
+                </select>
+
+                @if (
+                invoiceForm.controls.type.invalid &&
+                invoiceForm.controls.type.touched
+                ) {
+                <small class="field-error">
+                    El tipo de factura es obligatorio.
+                </small>
+                }
+
+            </div>
+
+            <!-- Subtotal -->
+            <div class="form-group">
+
+                <label for="subtotal">
+                    Subtotal
+                </label>
+
+                <input id="subtotal" type="number" formControlName="subtotal" min="0.01" step="0.01"
+                    placeholder="0.00" />
+
+                <small class="field-help">
+                    Ingresa el valor antes de impuestos.
+                </small>
+
+                @if (
+                invoiceForm.controls.subtotal.invalid &&
+                invoiceForm.controls.subtotal.touched
+                ) {
+
+                @if (
+                invoiceForm.controls.subtotal.hasError('required')
+                ) {
+                <small class="field-error">
+                    El subtotal es obligatorio.
+                </small>
+                }
+
+                @if (
+                invoiceForm.controls.subtotal.hasError('min')
+                ) {
+                <small class="field-error">
+                    El subtotal debe ser mayor que cero.
+                </small>
+                }
+
+                }
+
+            </div>
+
+            <!-- Código aduanero -->
+            @if (
+            invoiceForm.controls.type.value === 'EXPORTACION'
+            ) {
+
+            <div class="form-group">
+
+                <label for="customsCode">
+                    Código aduanero
+                    <span class="required">*</span>
+                </label>
+
+                <input id="customsCode" type="text" formControlName="customsCode" maxlength="20" autocomplete="off"
+                    placeholder="Ingrese el código aduanero" />
+
+                <small class="field-help">
+                    Solo se permiten letras y números.
+                </small>
+
+                @if (
+                invoiceForm.controls.customsCode.hasError('required') &&
+                invoiceForm.controls.customsCode.touched
+                ) {
+                <small class="field-error">
+                    El código aduanero es obligatorio
+                    para facturas de exportación.
+                </small>
+                }
+
+                @if (
+                invoiceForm.controls.customsCode.hasError('pattern') &&
+                invoiceForm.controls.customsCode.touched
+                ) {
+                <small class="field-error">
+                    El código aduanero solo puede contener
+                    letras y números.
+                </small>
+                }
+
+                @if (
+                invoiceForm.controls.customsCode.hasError('maxlength') &&
+                invoiceForm.controls.customsCode.touched
+                ) {
+                <small class="field-error">
+                    El código aduanero no puede superar
+                    los 20 caracteres.
+                </small>
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+        <!-- Error general -->
+        @if (errorMessage) {
+        <div class="error-message">
+            {{ errorMessage }}
+        </div>
+        }
+
+        <!-- Acciones -->
+        <div class="form-actions">
+
+            <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="isLoading">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn-primary" [disabled]="isLoading || invoiceForm.invalid">
+                @if (isLoading) {
+                Creando...
+                } @else {
+                Crear factura
+                }
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
