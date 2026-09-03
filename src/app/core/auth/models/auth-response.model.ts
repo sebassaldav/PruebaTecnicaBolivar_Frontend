@@ -1,5 +1,12 @@
+export interface AuthData {
+  id: number;
+  token: string;
+  email: string;
+  roles: string[];
+}
+
 export interface AuthResponse {
-    token: string;
-    username: string;
-    roles: string[];
+  data: AuthData;
+  ok: boolean;
+  message: string;
 }

@@ -1,0 +1,19 @@
+<header class="navbar">
+
+  <div class="navbar__brand">
+    <h1>Global Invoice</h1>
+  </div>
+
+  <div class="navbar__user">
+
+    @if (user) {
+      <span>{{ user.email }}</span>
+    }
+
+    <button type="button" (click)="logout()">
+      Cerrar sesión
+    </button>
+
+  </div>
+
+</header>

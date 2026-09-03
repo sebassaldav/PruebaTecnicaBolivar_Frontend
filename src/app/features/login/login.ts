@@ -19,7 +19,7 @@ export class Login {
   errorMessage = '';
 
   loginForm = this.fb.nonNullable.group({
-    username: ['', Validators.required],
+    email: ['', Validators.required],
     password: ['', Validators.required],
   });
 
@@ -32,7 +32,7 @@ export class Login {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const { username, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
     this.auth
     .login(this.loginForm.getRawValue())

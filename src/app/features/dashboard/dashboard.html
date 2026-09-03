@@ -1,1 +1,80 @@
-<p>dashboard works!</p>
+<section class="dashboard">
+
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen de facturación por tipo de factura.</p>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="state-message">
+      Cargando información...
+    </div>
+  }
+
+  @if (errorMessage && !loading) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (!loading && !errorMessage) {
+
+    <div class="summary-grid">
+
+      <div class="summary-card">
+        <span class="summary-label">
+          Nacional
+        </span>
+
+        <strong>
+          {{ getTotalByType('NACIONAL') | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="summary-card">
+        <span class="summary-label">
+          Exportación
+        </span>
+
+        <strong>
+          {{ getTotalByType('EXPORTACION') | number:'1.2-2' }}
+        </strong>
+      </div>
+
+      <div class="summary-card">
+        <span class="summary-label">
+          Gubernamental
+        </span>
+
+        <strong>
+          {{ getTotalByType('GUBERNAMENTAL') | number:'1.2-2' }}
+        </strong>
+      </div>
+
+    </div>
+
+    <div class="chart-container">
+
+      <div class="chart-header">
+        <div>
+          <h2>Total facturado</h2>
+          <p>Distribución por tipo de factura.</p>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <canvas
+          baseChart
+          [data]="chartData"
+          [options]="chartOptions"
+          [type]="chartType">
+        </canvas>
+      </div>
+
+    </div>
+
+  }
+
+</section>
