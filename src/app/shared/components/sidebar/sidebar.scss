@@ -1,0 +1,21 @@
+.sidebar {
+  width: 220px;
+  min-height: calc(100vh - 64px);
+  padding: 24px 16px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar a {
+  padding: 12px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+}

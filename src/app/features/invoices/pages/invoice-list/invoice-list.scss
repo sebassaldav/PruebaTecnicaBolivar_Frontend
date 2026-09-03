@@ -1,0 +1,112 @@
+.invoice-list {
+  padding: 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0;
+  }
+
+  p {
+    margin-top: 0.5rem;
+    color: #666;
+  }
+}
+
+.search-container {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  input {
+    flex: 1;
+    max-width: 400px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+}
+
+.btn-primary,
+.btn-secondary {
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: #6d2062;
+  color: white;
+}
+
+.btn-secondary {
+  background: #eee;
+  color: #333;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+th,
+td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background: #f7f4ef;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+.state-message {
+  padding: 3rem;
+  text-align: center;
+  color: #666;
+}
+
+.error-message {
+  padding: 1rem;
+  border-radius: 6px;
+  background: #fdecec;
+  color: #b42318;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 0.5rem;
+}

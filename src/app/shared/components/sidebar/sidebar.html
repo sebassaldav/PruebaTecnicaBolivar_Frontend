@@ -1,0 +1,32 @@
+<aside class="sidebar">
+
+  <nav>
+
+    @if (isAuditor()) {
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+      >
+        Dashboard
+      </a>
+    }
+
+    <a
+      routerLink="/invoices"
+      routerLinkActive="active"
+    >
+      Facturas
+    </a>
+
+    @if (isOperator()) {
+      <a
+        routerLink="/invoices/new"
+        routerLinkActive="active"
+      >
+        Crear factura
+      </a>
+    }
+
+  </nav>
+
+</aside>

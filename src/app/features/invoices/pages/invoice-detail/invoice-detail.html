@@ -1,0 +1,106 @@
+<section class="invoice-detail">
+
+  <div class="page-header">
+    <div>
+      <h1>Detalle de factura</h1>
+      <p>Consulta la información de la factura seleccionada.</p>
+    </div>
+
+    <button type="button" class="btn-secondary" (click)="goBack()">
+      Volver a facturas
+    </button>
+  </div>
+
+  @if (loading) {
+  <div class="state-message">
+    Cargando información...
+  </div>
+  }
+
+  @if (errorMessage && !loading) {
+  <div class="error-message">
+    {{ errorMessage }}
+  </div>
+  }
+
+  @if (invoice && !loading) {
+
+  <div class="detail-card">
+
+    <div class="detail-header">
+      <div>
+        <span class="detail-label">Consecutivo</span>
+        <h2>{{ invoice.consecutive }}</h2>
+      </div>
+
+      <span class="invoice-type">
+        {{ getInvoiceTypeLabel(invoice.type) }}
+      </span>
+    </div>
+
+    <div class="detail-grid">
+
+      <div class="detail-item">
+        <span class="detail-label">Código aduanero</span>
+        <span>{{ invoice.customsCode || 'No aplica' }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Subtotal</span>
+        <span>
+          {{ invoice.subtotal | number:'1.2-2' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">IVA</span>
+        <span>
+          {{ invoice.iva | number:'1.2-2' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Retención</span>
+        <span>
+          {{ invoice.withholding | number:'1.2-2' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Fecha de creación</span>
+        <span>
+          {{ invoice.createdAt | date:'dd/MM/yyyy' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Creada por</span>
+        <span>{{ invoice.createdBy }}</span>
+      </div>
+
+    </div>
+
+    <div class="total-container">
+      <span class="detail-label">Total a pagar</span>
+      <span class="total">
+        {{ invoice.total | number:'1.2-2' }}
+      </span>
+    </div>
+
+    <div class="total-in-words">
+
+      <span class="detail-label">
+        Total en palabras
+      </span>
+
+      <p>
+        {{ invoice.totalInWords }}
+      </p>
+
+    </div>
+
+  </div>
+
+  }
+
+</section>

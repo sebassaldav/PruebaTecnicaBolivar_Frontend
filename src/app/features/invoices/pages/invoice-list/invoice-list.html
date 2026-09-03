@@ -1,0 +1,153 @@
+<section class="invoice-list">
+  <div class="page-header">
+    <div>
+      <h1>Facturas</h1>
+      <p>Consulta y administra las facturas registradas.</p>
+    </div>
+
+    @if (isOperator()) {
+    <a routerLink="/invoices/new" class="btn-primary">
+      Crear factura
+    </a>
+    }
+  </div>
+
+  <div class="search-container">
+
+    <input type="text" [(ngModel)]="search" placeholder="Buscar factura..." (keyup.enter)="searchInvoices()" />
+
+    <button type="button" class="btn-primary" (click)="searchInvoices()" [disabled]="loading">
+      Buscar
+    </button>
+
+    <button type="button" class="btn-secondary" (click)="clearSearch()" [disabled]="loading">
+      Limpiar
+    </button>
+
+  </div>
+
+  @if (loading) {
+  <div class="state-message">
+    Cargando facturas...
+  </div>
+  }
+
+  @if (errorMessage && !loading) {
+  <div class="error-message">
+    {{ errorMessage }}
+  </div>
+  }
+
+  @if (!loading && !errorMessage && invoices.length === 0) {
+  <div class="state-message">
+    No se encontraron facturas.
+  </div>
+  }
+
+  @if (!loading && invoices.length > 0) {
+
+  <div class="table-container">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Consecutivo</th>
+          <th>Tipo</th>
+          <th>Código aduanero</th>
+          <th>Subtotal</th>
+          <th>IVA</th>
+          <th>Retención</th>
+          <th>Total</th>
+          <th>Fecha</th>
+          <th>Creado por</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @for (invoice of invoices; track invoice.id) {
+
+        <tr>
+
+          <td>
+            <strong>{{ invoice.consecutive }}</strong>
+          </td>
+
+          <td>
+            {{ getInvoiceTypeLabel(invoice.type) }}
+          </td>
+
+          <td>
+            {{ invoice.customsCode || '—' }}
+          </td>
+
+          <td>
+            {{ invoice.subtotal | currency:'COP ':'symbol':'1.0-0' }}
+          </td>
+
+          <td>
+            {{ invoice.iva | currency:'COP ':'symbol':'1.0-0' }}
+          </td>
+
+          <td>
+            {{ invoice.withholding | currency:'COP ':'symbol':'1.0-0' }}
+          </td>
+
+          <td>
+            <strong>
+              {{ invoice.total | currency:'COP ':'symbol':'1.0-0' }}
+            </strong>
+          </td>
+
+          <td>
+            {{ invoice.createdAt | date:'dd/MM/yyyy' }}
+          </td>
+
+          <td>
+            {{ invoice.createdBy }}
+          </td>
+          <td class="actions">
+            <a [routerLink]="['/invoices', invoice.id]" class="btn-secondary">
+              Ver
+            </a>
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div class="pagination">
+
+    <span>
+      Página {{ page + 1 }} de {{ totalPages }}
+    </span>
+
+    <span>
+      {{ totalElements }} factura(s)
+    </span>
+
+    <div class="pagination-buttons">
+
+      <button type="button" class="btn-secondary" (click)="previousPage()" [disabled]="page === 0 || loading">
+        Anterior
+      </button>
+
+      <button type="button" class="btn-secondary" (click)="nextPage()" [disabled]="page >= totalPages - 1 || loading">
+        Siguiente
+      </button>
+
+    </div>
+
+  </div>
+
+  }
+
+</section>
